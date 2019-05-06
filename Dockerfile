@@ -14,12 +14,13 @@
 # manages the windows and files.
 #
 # Author: Roberto Gandolfo Hashioka
-# Date: 07/28/2013
+# Date: 05/06/2019
 
 
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 MAINTAINER Roberto G. Hashioka "roberto_hashioka@hotmail.com"
 
+RUN sed -ri 's#(archive.canonical.com|security.ubuntu.com|archive.ubuntu.com)#mirrors.aliyun.com#g' /etc/apt/sources.list
 RUN apt-get update -y
 RUN apt-get upgrade -y
 
@@ -32,7 +33,7 @@ RUN apt-get install -y xpra rox-filer openssh-server pwgen xserver-xephyr xdm fl
 # Configuring xdm to allow connections from any IP address and ssh to allow X11 Forwarding. 
 RUN sed -i 's/DisplayManager.requestPort/!DisplayManager.requestPort/g' /etc/X11/xdm/xdm-config
 RUN sed -i '/#any host/c\*' /etc/X11/xdm/Xaccess
-RUN ln -s /usr/bin/Xorg /usr/bin/X
+RUN ln -sf /usr/bin/Xorg /usr/bin/X
 RUN echo X11Forwarding yes >> /etc/ssh/ssh_config
 
 # Fix PAM login issue with sshd
@@ -55,7 +56,7 @@ RUN apt-get -y install fuse
 RUN apt-get install -y libreoffice-base firefox libreoffice-gtk libreoffice-calc xterm
 
 # Set locale (fix the locale warnings)
-RUN localedef -v -c -i en_US -f UTF-8 en_US.UTF-8 || :
+RUN sudo sh -c "echo -e 'LC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8' >> /etc/environment"
 
 # Copy the files into the container
 ADD . /src

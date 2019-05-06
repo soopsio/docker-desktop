@@ -120,7 +120,7 @@ Requirements:
 
 ### On OS X:
 Requirements:
-- Xpra Version <= 14.0 (https://www.xpra.org/dists/osx/x86/)
+- Xpra Version <= 14.0 (https://www.xpra.org/dists/osx/)
 - Path: /Applications/Xpra.app/Contents/Helpers/xpra
 
 
